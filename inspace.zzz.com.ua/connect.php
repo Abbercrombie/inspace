@@ -201,26 +201,15 @@ return resultToArray ($result);
 else return $result->fetch_assoc();
 }
 
-//function refreshMessageCount ()
-//{
-	//global $mysqli;
-	//connectDB();
-	//$result = $mysqli->query("UPDATE `users` SET `countmessage`='0' ");
+function addArticleToDB ($Pid,$Ptitle,$Pdate,$Pfulltext,$Pimg){
+	global $mysqli;
+	connectDB();
+	
+$result = $mysqli->query("INSERT INTO `parser` (`Pid`,`Ptitle`, `Pdate`, `Pfulltext`, `Pimg`) VALUES ('$Pid','$Ptitle','$Pdate','$Pfulltext','$Pimg') ");	
+return $result;
 
-//closeDB();
-//return $result;
-//}
+}
 
-//function getMessageCount ($countmessage)
-//{
-	//global $mysqli;
-	//connectDB();
-//$result = $mysqli->query("SELECT `countmessage` FROM `messages` WHERE 1");	
-//closeDB();
-//return $result;
-//}
-
-//$messagess = getMessageCount ($countmessage);
 $addinfo = AddInfo(10,$_GET["id"]);
 $title = $news["title"];
 $news = getNews(100,$_GET["id"]);
