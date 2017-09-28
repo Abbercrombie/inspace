@@ -36,20 +36,20 @@ require_once 'connect.php';
 				 $Pdate=$article->find('.storydetails .storydate .time-wrapper')->text();
 					
 					$parserarray = array ("Pid"=>"$Pid","Ptitle"=>"$Ptitle","Pimg"=>"$Pimg","Pfulltext"=>"$Pfulltext","Pdate"=>"$Pdate");
-				$urli= array();
-				foreach ($parserarray['Pimg']as $urli[]){
-					//$url = $parserarray['Pimg'];
-					var_dump($urli);
-					//$content = file_get_contents($url);
+				
+				
+					$url = $parserarray['Pimg'];
+					
+					$content = file_get_contents($url);
 				//$path = __DIR__.'/Parser/'.'image1.jpg';
-					//for ($i=0;$i<20;$i++){
+					for ($i=0;$i<20;$i++){
 					
-					//$nameimg = md5 ($i++);
-					//file_put_contents($nameimg.'.jpg',$content);
-					//}
+					$nameimg = md5 ($i++);
+					file_put_contents($nameimg.'.jpg',$content);
+					}
 					
 					
-				}
+				
 				
 				//for ($i=0;$i<1;$i++){
 				
