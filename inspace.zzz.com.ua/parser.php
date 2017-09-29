@@ -8,34 +8,31 @@ require 'phpQuery.php';
 		
 	}
 
-	function parser ($url,$start,$end){
+	function parser ($url){
 		
-	if ($start<$end){
+	
 	$file = file_get_contents($url);
 	$doc = phpQuery::newDocument($file);
-				foreach ($doc->find('#article article ')as $article)
+			
+				foreach ($doc->find('.postarea.archivepage .sno-animate:lt(2) ')as $article)
 				{
 			$article = pq($article);
-
-			$article->find('.right')->remove();
-			$img = $article->find('.articleIMG a img')->attr('src');
+			$article->find('.categorycat')->remove();
+			$article->find('p:first')->remove();
+			$article->find('a ')->wrap('<span style="background-color:red;">');
+			$img = $article->find(' a img')->attr('src');
 			$text = $article->html();
 
 			print_arr($text);
+			
 				}
-				$next=$doc->find('#pagination span ')->next()->attr('href');
-				if (!empty($next) ) 
-				{
-					$start++;
-					parser($next,$start,$end);	
-				}
-			}
+				
+				
+			
 	}	
-
-$url =  'http://plurrimi.com/' ;
-$start=0;
-$end=4;
-parser($url,$start,$end);
+			
+$url =  'http://dailyillini.com/category/news/' ;
+parser($url);
 
 
 

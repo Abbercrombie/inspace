@@ -204,18 +204,57 @@ else return $result->fetch_assoc();
 function addArticleToDB ($Pid,$Ptitle,$Pdate,$Pfulltext,$Pimg){
 	global $mysqli;
 	connectDB();
-	
-$result = $mysqli->query("INSERT INTO `parser` (`Pid`,`Ptitle`, `Pdate`, `Pfulltext`, `Pimg`) VALUES ('$Pid','$Ptitle','$Pdate','$Pfulltext','$Pimg') ");	
+$result = $mysqli->query("SELECT `title` FROM `pparser` WHERE  `Ptitle`='$Ptitle', `Pdate`='$Pdate', `Pfulltext`='$Pfulltext' , `Pimg`='$Pimg'  ORDER BY `Pid` ");		
+if(mysql_num_rows($result)<=0){
+$result = $mysqli->query("INSERT IGNORE INTO `pparser` (`Pid`,`Ptitle`, `Pdate`, `Pfulltext`, `Pimg`) VALUES ('$Pid','$Ptitle','$Pdate','$Pfulltext','$Pimg') ");	
 return $result;
-
+}
+else 
+{
+	echo "Запись уже существует!";
+}
 }
 
+function getParsedArticles ($limit ,$Pid){
+	global $mysqli;
+	connectDB();
+	if ($Pid)
+		$where = "WHERE `Pid` = ".$Pid;
+$result = $mysqli->query("SELECT * FROM `pparser` $where ORDER BY `Pid` ASC LIMIT $limit");	
+closeDB();
+if (!$id)
+return resultToArray ($result);
+else return $result->fetch_assoc();
+}
+
+
+//function refreshMessageCount ()
+//{
+	//global $mysqli;
+	//connectDB();
+	//$result = $mysqli->query("UPDATE `users` SET `countmessage`='0' ");
+
+//closeDB();
+//return $result;
+//}
+
+//function getMessageCount ($countmessage)
+//{
+	//global $mysqli;
+	//connectDB();
+//$result = $mysqli->query("SELECT `countmessage` FROM `messages` WHERE 1");	
+//closeDB();
+//return $result;
+//}
+
+//$messagess = getMessageCount ($countmessage);
 $addinfo = AddInfo(10,$_GET["id"]);
 $title = $news["title"];
 $news = getNews(100,$_GET["id"]);
 $users = getUsers (100,$_GET["id"]);
 $dailynews = getDailyNews(100,$_GET["id"]);
 $infouser = getInfoAboutUser (1);
+
 ?>
 
 
