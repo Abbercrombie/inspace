@@ -3,6 +3,16 @@ header('content-type: text/html; charset=utf-8');
 require 'phpQuery.php';
 require_once 'connect.php';
 $i = 0;
+$url  = 'http://dailyillini.com/category/news/';
+$file = file_get_contents($url);
+$doc  = phpQuery::newDocument($file);
+foreach ($doc->find('.postarea.archivepage .sno-animate') as $article) {
+    $i++;
+    $article     = pq($article);
+    $text        = $article->find('a:first')->html();
+    $texturl[$i] = $article->find('a:first')->attr('href');
+    parser($texturl, $i);
+}
 function parser($url, $i)
 {
     $file    = file_get_contents($url[$i]);
@@ -30,15 +40,5 @@ function parser($url, $i)
     echo $Pfulltext;
     echo '<br>' . $Pdate . '<br>';
     echo '<hr> <br>';
-}
-$url  = 'http://dailyillini.com/category/news/';
-$file = file_get_contents($url);
-$doc  = phpQuery::newDocument($file);
-foreach ($doc->find('.postarea.archivepage .sno-animate') as $article) {
-    $i++;
-    $article     = pq($article);
-    $text        = $article->find('a:first')->html();
-    $texturl[$i] = $article->find('a:first')->attr('href');
-    parser($texturl, $i);
 }
 ?>
