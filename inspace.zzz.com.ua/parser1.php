@@ -13,6 +13,7 @@ foreach ($doc->find('.postarea.archivepage .sno-animate') as $article) {
     $texturl[$i] = $article->find('a:first')->attr('href');
     parser($texturl, $i);
 }
+closeDB();
 function parser($url, $i)
 {
     $file    = file_get_contents($url[$i]);
@@ -31,7 +32,6 @@ function parser($url, $i)
     $content   = file_get_contents($Pimg);
     file_put_contents('image' . $i . '.jpg', $content);
     addArticleToDB($Pid, $Ptitle, $Pdate, $Pfulltext, $Pimg);
-    closeDB();
     echo '<br>';
     echo $Ptitle;
     echo '<br>';
